@@ -15,7 +15,7 @@
 ///
 
 import { NgModule, SecurityContext } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FooterComponent } from '@shared/components/footer.component';
 import { LogoComponent } from '@shared/components/logo.component';
 import { TbSnackBarComponent, ToastDirective } from '@shared/components/toast.directive';
@@ -66,7 +66,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxHmCarouselModule } from 'ngx-hm-carousel';
 import { UserMenuComponent } from '@shared/components/user-menu.component';
 import { NospacePipe } from '@shared/pipe/nospace.pipe';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TbCheckboxComponent } from '@shared/components/tb-checkbox.component';
 import { HelpComponent } from '@shared/components/help.component';
 import { TbAnchorComponent } from '@shared/components/tb-anchor.component';
@@ -169,6 +169,8 @@ import { PhoneInputComponent } from '@shared/components/phone-input.component';
 import { CustomDateAdapter } from '@shared/adapter/custom-datatime-adapter';
 import { CustomPaginatorIntl } from '@shared/services/custom-paginator-intl';
 import { TbScriptLangComponent } from '@shared/components/script-lang.component';
+import localeDe from '@angular/common/locales/de';
+import localeFr from '@angular/common/locales/fr';
 
 export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService) {
   return markedOptionsService;
@@ -190,7 +192,10 @@ export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService)
     },
     {
       provide: MAT_DATE_LOCALE,
-      useValue: 'en-GB'
+      useFactory: (translate: TranslateService) => {
+        return translate.currentLang.replace('_', '-');
+      },
+      deps: [TranslateService],
     },
     { provide: DatetimeAdapter, useClass: CustomDateAdapter },
     { provide: HELP_MARKDOWN_COMPONENT_TOKEN, useValue: HelpMarkdownComponent },
@@ -503,4 +508,9 @@ export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService)
     TbScriptLangComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  constructor() {
+    registerLocaleData(localeDe, 'de-DE');
+    registerLocaleData(localeFr, 'fr-FR');
+  }
+}

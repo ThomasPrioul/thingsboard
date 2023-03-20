@@ -18,6 +18,8 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { MenuSection } from '@core/services/menu.models';
 import { Router } from '@angular/router';
 
+const line_height_px = 48;
+
 @Component({
   selector: 'tb-menu-toggle',
   templateUrl: './menu-toggle.component.html',
@@ -40,7 +42,7 @@ export class MenuToggleComponent implements OnInit {
 
   sectionHeight(): string {
     if (this.router.isActive(this.section.path, false)) {
-      return this.section.height;
+      return `${line_height_px * (this.section.pages ?? []).length}px`;
     } else {
       return '0px';
     }

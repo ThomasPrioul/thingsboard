@@ -13,64 +13,81 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '~@angular/material' as mat;
-@import '~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss';
-@import './scss/constants';
+@use "~@angular/material" as mat;
+@use "scss/sncf/colors.scss" as sncf_colors;
+@use "scss/sncf/palettes.scss" as sncf_palettes;
+@import "~@mat-datetimepicker/core/datetimepicker/datetimepicker-theme.scss";
+@import "./scss/constants";
 
-@include mat.core();
+$font-sans-serif: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+  "Segoe UI Symbol";
 
-$tb-primary-color: #305680;
+$sncf-theme-typography: mat.define-typography-config(
+  $font-family: $font-sans-serif,
+);
+@include mat.core($sncf-theme-typography);
+
+$tb-primary-color: sncf_colors.$blue;
 $tb-secondary-color: #527dad;
 $tb-hue3-color: #a7c1de;
 
 $tb-dark-primary-color: #9fa8da;
 
-$tb-mat-indigo: (
-  50: #e8eaf6,
-  100: #c5cae9,
-  200: #9fa8da,
-  300: #7986cb,
-  400: #5c6bc0,
-  500: $tb-primary-color,
-  600: $tb-secondary-color,
-  700: #303f9f,
-  800: #283593,
-  900: #1a237e,
-  A100: $tb-hue3-color,
-  A200: #536dfe,
-  A400: #3d5afe,
-  A700: #304ffe,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: white,
-    A400: white,
-    A700: white,
+$tb-mat-indigo: sncf_palettes.$blue-palette;
+
+$tb-primary: mat.define-palette(sncf_palettes.$blue-palette);
+$tb-accent: mat.define-palette(sncf_palettes.$gray-light-palette);
+
+$background: (
+  background: map_get(sncf_palettes.$gray-light-palette, 200),
+);
+
+$light-theme-foreground-palette: (
+  base: sncf_colors.$carbon,
+  divider: sncf_colors.$cool-gray-5,
+  dividers: sncf_colors.$cool-gray-5,
+  disabled: sncf_colors.$text-disabled,
+  disabled-button: sncf_colors.$text-light,
+  disabled-text: sncf_colors.$text-disabled,
+  elevation: sncf_colors.$carbon,
+  hint-text: sncf_colors.$text-disabled,
+  secondary-text: sncf_colors.$cool-gray-9,
+  icon: sncf_colors.$cool-gray-9,
+  icons: sncf_colors.$cool-gray-9,
+  text: sncf_colors.$cool-gray-11,
+  slider-min: sncf_colors.$cool-gray-11,
+  slider-off: sncf_colors.$text-disabled,
+  slider-off-active: sncf_colors.$cool-gray-9,
+);
+
+$tb-theme-background: (
+  status-bar: #e0e0e0,
+  app-bar: white,
+  background: sncf_colors.$cool-gray-1,
+  hover: sncf_colors.$cool-gray-1,
+  card: white,
+  dialog: white,
+  disabled-button: sncf_colors.$cool-gray-5,
+  raised-button: white,
+  focused-button: sncf_colors.$carbon,
+  selected-button: #e0e0e0,
+  selected-disabled-button: sncf_colors.$cool-gray-5,
+  disabled-button-toggle: #eeeeee,
+  unselected-chip: #e0e0e0,
+  disabled-list-option: sncf_colors.$cool-gray-5,
+  tooltip: sncf_colors.$gray-darker,
+);
+
+$tb-mat-theme: mat.define-light-theme($tb-primary, $tb-accent);
+
+$tb-theme: map_merge(
+  $tb-mat-theme,
+  (
+    foreground: $light-theme-foreground-palette,
+    background: $tb-theme-background,
   )
 );
-
-$tb-primary: mat.define-palette($tb-mat-indigo);
-$tb-accent: mat.define-palette(mat.$deep-orange-palette);
-
-$background: (background: map_get(mat.$grey-palette, 200));
-
-$tb-theme-background: map_merge(mat.$light-theme-background-palette, $background);
-
-$tb-mat-theme: mat.define-light-theme(
-    $tb-primary,
-    $tb-accent
-);
-
-$tb-theme: map_merge($tb-mat-theme, (background: $tb-theme-background));
 
 $primary: mat.get-color-from-palette($tb-primary);
 $accent: mat.get-color-from-palette($tb-accent);
@@ -105,18 +122,18 @@ $tb-dark-mat-indigo: (
     A200: rgba(black, 0.87),
     A400: rgba(black, 0.87),
     A700: rgba(black, 0.87),
-  )
+  ),
 );
 
 $tb-dark-primary: mat.define-palette($tb-dark-mat-indigo);
 
 $tb-dark-theme-background: (
   status-bar: black,
-  app-bar:    map_get($tb-dark-mat-indigo, 900),
+  app-bar: map_get($tb-dark-mat-indigo, 900),
   background: map_get($tb-dark-mat-indigo, 800),
-  hover:      rgba(white, 0.04),
-  card:       map_get($tb-dark-mat-indigo, 800),
-  dialog:     map_get($tb-dark-mat-indigo, 800),
+  hover: rgba(white, 0.04),
+  card: map_get($tb-dark-mat-indigo, 800),
+  dialog: map_get($tb-dark-mat-indigo, 800),
   disabled-button: rgba(white, 0.12),
   raised-button: map-get($tb-dark-mat-indigo, 50),
   focused-button: rgba(white, 0.12),
@@ -128,21 +145,22 @@ $tb-dark-theme-background: (
   tooltip: map_get(mat.$grey-palette, 700),
 );
 
-@function get-tb-dark-theme($primary, $accent, $warn: mat.define-palette(mat.$red-palette)) {
+@function get-tb-dark-theme(
+  $primary,
+  $accent,
+  $warn: mat.define-palette(mat.$red-palette)
+) {
   @return (
     primary: $primary,
     accent: $accent,
     warn: $warn,
     is-dark: true,
     foreground: mat.$dark-theme-foreground-palette,
-    background: $tb-dark-theme-background,
+    background: $tb-dark-theme-background
   );
 }
 
-$tb-dark-theme: get-tb-dark-theme(
-    $tb-dark-primary,
-    $tb-accent
-);
+$tb-dark-theme: get-tb-dark-theme($tb-dark-primary, $tb-accent);
 
 @mixin mat-fab-toolbar-theme($theme) {
   $primary: map-get($theme, primary);
@@ -216,16 +234,15 @@ $tb-dark-theme: get-tb-dark-theme(
       }
     }
   }
-
 }
 
 @mixin tb-components-theme($theme) {
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);
 
-  mat-toolbar{
+  mat-toolbar {
     &.mat-hue-3 {
-      background-color: mat.get-color-from-palette($primary, 'A100');
+      background-color: mat.get-color-from-palette($primary, "A100");
     }
   }
 
@@ -246,9 +263,30 @@ $tb-dark-theme: get-tb-dark-theme(
   @include mat.all-component-themes($tb-theme);
   @include mat-datetimepicker-theme($tb-theme);
   @include tb-components-theme($tb-theme);
+
+  .mat-card {
+    border-radius: 7px;
+
+    &:not([class*="mat-elevation-z"]) {
+      box-shadow: 3px 3px 14px 0 rgba(60, 55, 50, 0.14);
+    }
+  }
 }
 
 .tb-dark {
   @include mat.all-component-themes($tb-dark-theme);
 }
 
+/*
+$sncf-theme: (
+  color: (
+    primary: mat.define-palette(sncf_palettes.$blue-palette),
+    accent: mat.define-palette(sncf_palettes.$gray-light-palette),
+    warn: mat.define-palette(sncf_palettes.$yellow-palette),
+    is-dark: false,
+    foreground: $light-theme-foreground-palette,
+    background: $tb-theme-background,
+  ),
+  // typography: $sncf-theme-typography,
+);
+*/

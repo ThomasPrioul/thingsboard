@@ -27,7 +27,7 @@
             <mat-slider [(ngModel)]="index" [min]="minTimeIndex" [max]="maxTimeIndex" (input)="changeIndex($event.value)">
             </mat-slider>
             <div class="panel-timer">
-                <span *ngIf="this.currentTime">{{ this.currentTime | date:'medium'}}</span>
+                <span *ngIf="this.currentTime">{{ this.currentTime | date:'medium':undefined:translateService.currentLang}}</span>
                 <span *ngIf="!this.currentTime">{{ "widget.no-data-found" | translate}}</span>
             </div>
         </div>

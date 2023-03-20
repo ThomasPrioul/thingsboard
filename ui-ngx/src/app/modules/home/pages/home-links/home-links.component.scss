@@ -29,17 +29,13 @@
       }
     }
     mat-card {
-      padding: 0;
+      padding: 16px 24px 24px 24px;
       margin: 8px;
       mat-card-title {
         margin: 0;
-        padding: 24px 16px 16px;
       }
       mat-card-title+mat-card-content {
-        padding-top: 0;
-      }
-      mat-card-content {
-        padding: 16px;
+        padding-top: 16px;
       }
     }
     .tb-card-button {
@@ -68,7 +64,6 @@
           padding: 0 0 20px 0;
           margin: auto;
           font-size: 18px;
-          font-weight: 400;
           line-height: 18px;
           white-space: normal;
         }
@@ -82,4 +77,3 @@
     }
   }
 }
-
