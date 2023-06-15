@@ -65,95 +65,51 @@ import { coerceBoolean } from '@shared/decorators/coercion';
   ]
 })
 export class TimewindowComponent implements ControlValueAccessor {
-
-  historyOnlyValue = false;
-
   @Input()
-  set historyOnly(val) {
-    const newHistoryOnlyValue = coerceBooleanProperty(val);
-    if (this.historyOnlyValue !== newHistoryOnlyValue) {
-      this.historyOnlyValue = newHistoryOnlyValue;
-      if (this.onHistoryOnlyChanged()) {
-        this.notifyChanged();
-      }
-    }
-  }
-
-  get historyOnly() {
-    return this.historyOnlyValue;
-  }
-
+  public direction: 'left' | 'right' = 'left';
+  @Input()
+  public tooltipPosition: TooltipPosition = 'above';
   @Input()
   @coerceBoolean()
-  forAllTimeEnabled = false;
-
+  public aggregation = false;
   @Input()
   @coerceBoolean()
-  alwaysDisplayTypePrefix = false;
-
+  public alwaysDisplayTypePrefix = false;
   @Input()
   @coerceBoolean()
-  quickIntervalOnly = false;
-
+  public asButton = false;
   @Input()
   @coerceBoolean()
-  aggregation = false;
-
+  public disabled: boolean;
   @Input()
   @coerceBoolean()
-  timezone = false;
-
+  public displayTimewindowValue = true;
   @Input()
   @coerceBoolean()
-  isToolbar = false;
-
+  public flatButton = false;
   @Input()
   @coerceBoolean()
-  asButton = false;
-
+  public forAllTimeEnabled = false;
   @Input()
   @coerceBoolean()
-  strokedButton = false;
-
+  public hideLabel = false;
   @Input()
   @coerceBoolean()
-  flatButton = false;
-
+  public isToolbar = false;
   @Input()
   @coerceBoolean()
-  displayTimewindowValue = true;
-
+  public quickIntervalOnly = false;
   @Input()
   @coerceBoolean()
-  hideLabel = false;
-
-  isEditValue = false;
-
-  @Input()
-  set isEdit(val) {
-    this.isEditValue = coerceBooleanProperty(val);
-    this.timewindowDisabled = this.isTimewindowDisabled();
-  }
-
-  get isEdit() {
-    return this.isEditValue;
-  }
-
-  @Input()
-  direction: 'left' | 'right' = 'left';
-
-  @Input()
-  tooltipPosition: TooltipPosition = 'above';
-
+  public strokedButton = false;
   @Input()
   @coerceBoolean()
-  disabled: boolean;
+  public timezone = false;
 
-  innerValue: Timewindow;
-
-  timewindowDisabled: boolean;
-
-  private propagateChange = (_: any) => {};
+  public historyOnlyValue = false;
+  public innerValue: Timewindow;
+  public isEditValue = false;
+  public timewindowDisabled: boolean;
 
   constructor(private overlay: Overlay,
               private translate: TranslateService,
@@ -165,7 +121,52 @@ export class TimewindowComponent implements ControlValueAccessor {
               public viewContainerRef: ViewContainerRef) {
   }
 
-  toggleTimewindow($event: Event) {
+  @Input()
+  public set historyOnly(val) {
+    const newHistoryOnlyValue = coerceBooleanProperty(val);
+    if (this.historyOnlyValue !== newHistoryOnlyValue) {
+      this.historyOnlyValue = newHistoryOnlyValue;
+      if (this.onHistoryOnlyChanged()) {
+        this.notifyChanged();
+      }
+    }
+  }
+
+  @Input()
+  public set isEdit(val) {
+    this.isEditValue = coerceBooleanProperty(val);
+    this.timewindowDisabled = this.isTimewindowDisabled();
+  }
+
+  public get historyOnly() {
+    return this.historyOnlyValue;
+  }
+
+  public get isEdit() {
+    return this.isEditValue;
+  }
+
+  public displayValue(): string {
+    return this.displayTimewindowValue ? this.innerValue?.displayValue : this.translate.instant('timewindow.timewindow');
+  }
+
+  public notifyChanged() {
+    this.propagateChange(cloneSelectedTimewindow(this.innerValue));
+  }
+
+  public registerOnChange(fn: any): void {
+    this.propagateChange = fn;
+  }
+
+  public registerOnTouched(fn: any): void {
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+    this.timewindowDisabled = this.isTimewindowDisabled();
+  }
+
+  public toggleTimewindow($event: Event) {
     if ($event) {
       $event.stopPropagation();
     }
@@ -221,48 +222,7 @@ export class TimewindowComponent implements ControlValueAccessor {
     this.cd.detectChanges();
   }
 
-  private onHistoryOnlyChanged(): boolean {
-    if (this.historyOnlyValue && this.innerValue && this.innerValue.selectedTab !== TimewindowType.HISTORY) {
-      this.innerValue.selectedTab = TimewindowType.HISTORY;
-      this.updateDisplayValue();
-      return true;
-    }
-    return false;
-  }
-
-  registerOnChange(fn: any): void {
-    this.propagateChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-    this.timewindowDisabled = this.isTimewindowDisabled();
-  }
-
-  writeValue(obj: Timewindow): void {
-    this.innerValue = initModelFromDefaultTimewindow(obj, this.quickIntervalOnly, this.historyOnly, this.timeService);
-    this.timewindowDisabled = this.isTimewindowDisabled();
-    if (this.onHistoryOnlyChanged()) {
-      setTimeout(() => {
-        this.notifyChanged();
-      });
-    } else {
-      this.updateDisplayValue();
-    }
-  }
-
-  notifyChanged() {
-    this.propagateChange(cloneSelectedTimewindow(this.innerValue));
-  }
-
-  displayValue(): string {
-    return this.displayTimewindowValue ? this.innerValue?.displayValue : this.translate.instant('timewindow.timewindow');
-  }
-
-  updateDisplayValue() {
+  public updateDisplayValue() {
     if (this.innerValue.selectedTab === TimewindowType.REALTIME && !this.historyOnly) {
       this.innerValue.displayValue = this.translate.instant('timewindow.realtime') + ' - ';
       if (this.innerValue.realtime.realtimeType === RealtimeWindowType.INTERVAL) {
@@ -296,10 +256,32 @@ export class TimewindowComponent implements ControlValueAccessor {
     this.cd.detectChanges();
   }
 
+  public writeValue(obj: Timewindow): void {
+    this.innerValue = initModelFromDefaultTimewindow(obj, this.quickIntervalOnly, this.historyOnly, this.timeService);
+    this.timewindowDisabled = this.isTimewindowDisabled();
+    if (this.onHistoryOnlyChanged()) {
+      setTimeout(() => {
+        this.notifyChanged();
+      });
+    } else {
+      this.updateDisplayValue();
+    }
+  }
+
   private isTimewindowDisabled(): boolean {
     return this.disabled ||
       (!this.isEdit && (!this.innerValue || this.innerValue.hideInterval &&
         (!this.aggregation || this.innerValue.hideAggregation && this.innerValue.hideAggInterval)));
   }
 
+  private onHistoryOnlyChanged(): boolean {
+    if (this.historyOnlyValue && this.innerValue && this.innerValue.selectedTab !== TimewindowType.HISTORY) {
+      this.innerValue.selectedTab = TimewindowType.HISTORY;
+      this.updateDisplayValue();
+      return true;
+    }
+    return false;
+  }
+
+  private propagateChange = (_: any) => {};
 }

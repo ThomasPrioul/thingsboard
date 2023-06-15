@@ -17,4 +17,10 @@
   .mat-mdc-dialog-content {
     padding: 0 24px 24px;
   }
+
+  .mat-dialog-actions {
+    margin-bottom: 0;
+    padding: 0;
+    min-height: unset;
+  }
 }

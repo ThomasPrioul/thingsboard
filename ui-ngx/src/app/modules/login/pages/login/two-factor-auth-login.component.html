@@ -15,7 +15,7 @@
     limitations under the License.
 
 -->
-<div class="tb-two-factor-auth-login-content mat-app-background tb-dark" fxLayout="row" fxLayoutAlign="center center"
+<div class="tb-two-factor-auth-login-content mat-app-background" fxLayout="row" fxLayoutAlign="center center"
      style="width: 100%;">
   <mat-card appearance="raised" fxFlex="initial" class="tb-two-factor-auth-login-card" >
     <mat-card-header>
@@ -63,7 +63,7 @@
             </div>
             <span style="height: 50px;"></span>
             <button mat-raised-button
-                    color="accent"
+                    color="primary"
                     [disabled]="(isLoading$ | async) || verificationForm.invalid"
                     type="submit">
               {{ 'action.continue' | translate }}
