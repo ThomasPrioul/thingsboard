@@ -13,41 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@angular/material' as mat;
-@use 'theme-overwrites' as overwrites;
+@use "@angular/material" as mat;
+@use "theme-overwrites" as overwrites;
 @use "scss/sncf/colors.scss" as colors;
 @use "scss/sncf/palettes.scss" as palettes;
 @use "scss/sncf/vars.scss" as vars;
-@import '../theme/datepicker-theme';
-@import './scss/constants';
+@import "../theme/datepicker-theme";
+@import "./scss/constants";
 
 $sncf-typography: mat.define-typography-config(
   $font-family: vars.$font-sans-serif,
   $headline-5:
     mat.define-typography-level(
-      42px,
-      57px,
-      $font-weight: 800,
+      24px,
+      36px,
+      $font-weight: 500,
       $font-family: vars.$font-sans-serif
     ),
   $headline-6:
     mat.define-typography-level(
-      36px,
-      49px,
-      $font-weight: 800,
+      20px,
+      24px,
+      $font-weight: 500,
       $font-family: vars.$font-sans-serif
     ),
   $subtitle-1:
     mat.define-typography-level(
-      30px,
-      41px,
-      $font-weight: 800,
+      16px,
+      22px,
+      $font-weight: 500,
       $font-family: vars.$font-sans-serif
     ),
   $subtitle-2:
     mat.define-typography-level(
-      16px,
-      22px,
+      14px,
+      19px,
       $font-weight: 500,
       $font-family: vars.$font-sans-serif
     ),
@@ -91,7 +91,6 @@ $tb-primary: palettes.$primary;
 $primary: colors.$blue;
 $accent: colors.$carbon;
 
-
 $light-theme: (
   color: (
     primary: palettes.$primary,
@@ -111,7 +110,6 @@ $light-theme: (
   background: colors.$light-theme-background-palette,
 );
 $tb-theme: $light-theme;
-
 
 $dark-theme: (
   color: (
@@ -133,7 +131,6 @@ $dark-theme: (
 );
 
 $tb-dark-theme-background: colors.$dark-theme-background-palette;
-
 
 @mixin mat-fab-toolbar-theme($theme) {
   $primary: map-get($theme, primary);
@@ -261,4 +258,3 @@ $tb-dark-theme-background: colors.$dark-theme-background-palette;
 .tb-dark {
   @include mat.all-component-colors($dark-theme);
 }
-
