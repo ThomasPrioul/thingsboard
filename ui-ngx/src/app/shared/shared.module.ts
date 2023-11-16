@@ -15,7 +15,7 @@
 ///
 
 import { NgModule, SecurityContext } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FooterComponent } from '@shared/components/footer.component';
 import { LogoComponent } from '@shared/components/logo.component';
 import { TbSnackBarComponent, ToastDirective } from '@shared/components/toast.directive';
@@ -68,7 +68,7 @@ import { NgxHmCarouselModule } from 'ngx-hm-carousel';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { UserMenuComponent } from '@shared/components/user-menu.component';
 import { NospacePipe } from '@shared/pipe/nospace.pipe';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TbCheckboxComponent } from '@shared/components/tb-checkbox.component';
 import { HelpComponent } from '@shared/components/help.component';
 import { TbAnchorComponent } from '@shared/components/tb-anchor.component';
@@ -200,6 +200,8 @@ import { ColorPickerPanelComponent } from '@shared/components/color-picker/color
 import { TbIconComponent } from '@shared/components/icon.component';
 import { HintTooltipIconComponent } from '@shared/components/hint-tooltip-icon.component';
 import { StringAutocompleteComponent } from '@shared/components/string-autocomplete.component';
+import localeDe from '@angular/common/locales/de';
+import localeFr from '@angular/common/locales/fr';
 
 export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService) {
   return markedOptionsService;
@@ -227,7 +229,10 @@ export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService)
     },
     {
       provide: MAT_DATE_LOCALE,
-      useValue: 'en-GB'
+      useFactory: (translate: TranslateService) => {
+        return translate.currentLang.replace('_', '-');
+      },
+      deps: [TranslateService],
     },
     { provide: DatetimeAdapter, useClass: CustomDateAdapter },
     { provide: HELP_MARKDOWN_COMPONENT_TOKEN, useValue: HelpMarkdownComponent },
@@ -618,4 +623,9 @@ export function MarkedOptionsFactory(markedOptionsService: MarkedOptionsService)
     HintTooltipIconComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+  constructor() {
+    registerLocaleData(localeDe, 'de-DE');
+    registerLocaleData(localeFr, 'fr-FR');
+  }
+}

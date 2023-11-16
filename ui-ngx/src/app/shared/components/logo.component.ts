@@ -22,11 +22,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./logo.component.scss']
 })
 export class LogoComponent {
+  public logo = 'assets/logo_title_white.svg';
 
-  logo = 'assets/logo_title_white.svg';
-
-  gotoThingsboard(): void {
-    window.open('https://thingsboard.io', '_blank');
+  public gotoThingsboard(): void {
+    window.open('https://masteris.com', '_blank');
   }
-
 }

@@ -15,6 +15,7 @@
  */
 /* You can add global styles to this file, and also import other style files */
 
+@use 'scss/sncf/colors.scss' as sncf_colors;
 @import '~typeface-roboto/index.css';
 @import '~font-awesome/css/font-awesome.min.css';
 @import 'theme.scss';
@@ -22,6 +23,33 @@
 @import './scss/animations';
 @import './scss/mixins';
 @import './scss/fonts';
+
+@font-face {
+  font-family: Avenir;
+  src: url("assets/fonts/avenir-lighter.woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url("assets/fonts/avenir-book.woff");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url("assets/fonts/avenir-medium.woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Avenir;
+  src: url("assets/fonts/avenir-black.woff");
+  font-weight: 900;
+}
+
+$font-sans-serif: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+  Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 body, html {
   height: 100%;
@@ -66,7 +94,7 @@ select,
 textarea,
 td,
 th {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: $font-sans-serif;
   font-size: 16px;
 }
 
@@ -76,7 +104,7 @@ body {
 
 a:not(.mat-mdc-button-base) {
   font-weight: 400;
-  color: #106cc8;
+  color: sncf_colors.$blue;
   text-decoration: none;
   border-bottom: 1px solid rgba(64, 84, 178, .25);
 
@@ -86,7 +114,7 @@ a:not(.mat-mdc-button-base) {
 a:hover,
 a:focus {
   &:not(.mat-mdc-button-base) {
-    border-bottom: 1px solid #4054b2;
+    border-bottom: 1px solid sncf_colors.$strong-blue;
   }
 }
 
@@ -875,14 +903,14 @@ mat-icon {
 
   .mat-toolbar-tools {
     //font-size: 20px;
-    letter-spacing: .005em;
+    // letter-spacing: .005em;
     //box-sizing: border-box;
-    font-weight: 400;
+    font-weight: 500;
     display: flex;
     align-items: center;
     flex-direction: row;
     width: 100%;
-    height: 64px;
+    height: 50px;
     //max-height: 64px;
     padding: 0 16px;
     //margin: 0;
@@ -1012,11 +1040,11 @@ mat-icon {
   .mat-mdc-button, .mat-mdc-unelevated-button, .mat-mdc-outlined-button, .mat-mdc-raised-button {
     &:not(.mat-mdc-icon-button) {
       @media #{$mat-lt-md} {
-        padding: 0 6px;
+        // padding: 0 6px;
         min-width: 88px;
       }
       .mat-icon {
-        margin-right: 5px;
+        // margin-right: 5px;
       }
     }
   }

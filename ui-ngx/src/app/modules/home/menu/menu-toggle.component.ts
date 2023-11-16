@@ -21,6 +21,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@core/core.state';
 import { ActionPreferencesUpdateOpenedMenuSection } from '@core/auth/auth.actions';
 
+const line_height_px = 48;
+
 @Component({
   selector: 'tb-menu-toggle',
   templateUrl: './menu-toggle.component.html',
@@ -40,7 +42,7 @@ export class MenuToggleComponent implements OnInit {
 
   sectionHeight(): string {
     if (this.section.opened) {
-      return this.section.pages.length * 40 + 'px';
+      return this.section.pages.length * line_height_px + 'px';
     } else {
       return '0px';
     }

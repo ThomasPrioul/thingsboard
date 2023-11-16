@@ -13,139 +13,124 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@use '@angular/material' as mat;
-@use 'theme-overwrites' as overwrites;
-@import '../theme/datepicker-theme';
-@import './scss/constants';
+@use "@angular/material" as mat;
+@use "theme-overwrites" as overwrites;
+@use "scss/sncf/colors.scss" as colors;
+@use "scss/sncf/palettes.scss" as palettes;
+@use "scss/sncf/vars.scss" as vars;
+@import "../theme/datepicker-theme";
+@import "./scss/constants";
 
-@include mat.all-component-typographies();
+$sncf-typography: mat.define-typography-config(
+  $font-family: vars.$font-sans-serif,
+  $headline-5:
+    mat.define-typography-level(
+      24px,
+      36px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $headline-6:
+    mat.define-typography-level(
+      20px,
+      24px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $subtitle-1:
+    mat.define-typography-level(
+      16px,
+      22px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $subtitle-2:
+    mat.define-typography-level(
+      14px,
+      19px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $body-1:
+    mat.define-typography-level(
+      16px,
+      22px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $body-2:
+    mat.define-typography-level(
+      14px,
+      14px,
+      $font-weight: 400,
+      $font-family: vars.$font-sans-serif
+    ),
+  $caption:
+    mat.define-typography-level(
+      14px,
+      19px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+  $button:
+    mat.define-typography-level(
+      16px,
+      16px,
+      $font-weight: 500,
+      $font-family: vars.$font-sans-serif
+    ),
+);
+
+@include mat.all-component-typographies($sncf-typography);
 @include mat.core();
 
-$tb-mat-indigo: (
-  50: #e8eaf6,
-  100: #c5cae9,
-  200: #9fa8da,
-  300: #7986cb,
-  400: #5c6bc0,
-  500: $tb-primary-color,
-  600: $tb-secondary-color,
-  700: #303f9f,
-  800: #283593,
-  900: #1a237e,
-  A100: $tb-hue3-color,
-  A200: #536dfe,
-  A400: #3d5afe,
-  A700: #304ffe,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: white,
-    A400: white,
-    A700: white,
-  )
-);
+$tb-primary-color: colors.$blue;
+$tb-secondary-color: colors.$carbon;
 
-$tb-primary: mat.define-palette($tb-mat-indigo);
-$tb-accent: mat.define-palette(mat.$deep-orange-palette);
+$tb-primary: palettes.$primary;
+$primary: colors.$blue;
+$accent: colors.$carbon;
 
-$background: (background: map_get(mat.$grey-palette, 200));
-
-$tb-theme-background: map_merge(mat.$light-theme-background-palette, $background);
-
-$tb-mat-theme: mat.define-light-theme((
+$light-theme: (
   color: (
-    primary: $tb-primary,
-    accent: $tb-accent
+    primary: palettes.$primary,
+    accent: palettes.$accent,
+    warn: palettes.$warn,
+    is-dark: false,
+    foreground: colors.$light-theme-foreground-palette,
+    background: colors.$light-theme-background-palette,
   ),
-  typography: mat.define-typography-config(
-    $button: mat.define-typography-level(14px, 36px, 500, $letter-spacing: 0.03125em)
-  ),
-  density: 0
-));
-
-$color: map_get($tb-mat-theme, color);
-$color: map_merge($color, (background: $tb-theme-background));
-$tb-mat-theme: map_merge($tb-mat-theme, (color: $color));
-$tb-theme: map_merge($tb-mat-theme, $color);
-
-$primary: mat.get-color-from-palette($tb-primary);
-$accent: mat.get-color-from-palette($tb-accent);
-
-$tb-dark-mat-indigo: (
-  50: #e8eaf6,
-  100: #c5cae9,
-  200: #9fa8da,
-  300: #7986cb,
-  400: #5c6bc0,
-  500: $tb-dark-primary-color,
-  600: $tb-secondary-color,
-  700: #303f9f,
-  800: $tb-primary-color,
-  900: #1a237e,
-  A100: $tb-hue3-color,
-  A200: #536dfe,
-  A400: #3d5afe,
-  A700: #304ffe,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: map_get($tb-mat-indigo, 900),
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: rgba(black, 0.87),
-    A400: rgba(black, 0.87),
-    A700: rgba(black, 0.87),
-  )
+  typography: $sncf-typography,
+  density: 0,
+  primary: palettes.$primary,
+  accent: palettes.$accent,
+  warn: palettes.$warn,
+  is-dark: false,
+  foreground: colors.$light-theme-foreground-palette,
+  background: colors.$light-theme-background-palette,
 );
+$tb-theme: $light-theme;
 
-$tb-dark-primary: mat.define-palette($tb-dark-mat-indigo);
-
-$tb-dark-theme-background: (
-  status-bar: black,
-  app-bar:    map_get($tb-dark-mat-indigo, 900),
-  background: map_get($tb-dark-mat-indigo, 800),
-  hover:      rgba(white, 0.04),
-  card:       map_get($tb-dark-mat-indigo, 800),
-  dialog:     map_get($tb-dark-mat-indigo, 800),
-  disabled-button: rgba(white, 0.12),
-  raised-button: map-get($tb-dark-mat-indigo, 50),
-  focused-button: rgba(white, 0.12),
-  selected-button: map_get($tb-dark-mat-indigo, 900),
-  selected-disabled-button: map_get($tb-dark-mat-indigo, 800),
-  disabled-button-toggle: black,
-  unselected-chip: map_get($tb-dark-mat-indigo, 700),
-  disabled-list-option: black,
-  tooltip: map_get(mat.$grey-palette, 700),
-);
-
-$tb-dark-theme: mat.define-dark-theme((
+$dark-theme: (
   color: (
-    primary: $tb-dark-primary,
-    accent: $tb-accent
+    primary: palettes.$primary,
+    accent: palettes.$accent,
+    warn: palettes.$warn,
+    is-dark: true,
+    foreground: colors.$dark-theme-foreground-palette,
+    background: colors.$dark-theme-background-palette,
   ),
-  typography: mat.define-typography-config(),
-  density: 0
-));
+  typography: $sncf-typography,
+  density: 0,
+  primary: palettes.$primary,
+  accent: palettes.$accent,
+  warn: palettes.$warn,
+  is-dark: true,
+  foreground: colors.$dark-theme-foreground-palette,
+  background: colors.$dark-theme-background-palette,
+);
 
-$color: map_get($tb-dark-theme, color);
-$color: map_merge($color, (background: $tb-dark-theme-background));
-$tb-dark-theme: map_merge($tb-dark-theme, (color: $color));
-$tb-dark-theme: map_merge($tb-dark-theme, $color);
+$tb-dark-theme-background: colors.$dark-theme-background-palette;
 
 @mixin mat-fab-toolbar-theme($theme) {
   $primary: map-get($theme, primary);
@@ -219,23 +204,22 @@ $tb-dark-theme: map_merge($tb-dark-theme, $color);
       }
     }
   }
-
 }
 
 @mixin tb-components-theme($theme) {
   $primary: map-get($theme, primary);
   $warn: map-get($theme, warn);
 
-  mat-toolbar{
+  mat-toolbar {
     &.mat-hue-3 {
-      background-color: mat.get-color-from-palette($primary, 'A100');
+      background-color: mat.get-color-from-palette($primary, "A100");
     }
   }
 
-  @include mat-fab-toolbar-theme($tb-theme);
+  @include mat-fab-toolbar-theme($light-theme);
 
   div.tb-dashboard-page.mobile-app {
-    @include mat-fab-toolbar-inverse-theme($tb-theme);
+    @include mat-fab-toolbar-inverse-theme($light-theme);
   }
 
   ::-webkit-scrollbar {
@@ -256,13 +240,21 @@ $tb-dark-theme: map_merge($tb-dark-theme, $color);
 }
 
 .tb-default {
-  @include mat.all-component-themes($tb-theme);
-  @include mat-datetimepicker-theme($tb-theme);
-  @include tb-components-theme($tb-theme);
-  @include overwrites.theme-overwrites($tb-primary, $tb-theme);
-  @include mat.typography-hierarchy($tb-theme);
+  @include mat.all-component-themes($light-theme);
+  @include mat-datetimepicker-theme($light-theme);
+  @include tb-components-theme($light-theme);
+  @include overwrites.theme-overwrites(palettes.$primary, $light-theme);
+  @include mat.typography-hierarchy($light-theme);
+
+  .mat-mdc-card {
+    border-radius: 8px;
+
+    &:not([class*="mat-elevation-z"]) {
+      box-shadow: 3px 3px 14px 0 rgba(60, 55, 50, 0.14);
+    }
+  }
 }
 
 .tb-dark {
-  @include mat.all-component-colors($tb-dark-theme);
+  @include mat.all-component-colors($dark-theme);
 }

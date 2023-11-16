@@ -14,11 +14,19 @@
 /// limitations under the License.
 ///
 
+import { getLocaleFirstDayOfWeek } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 import { NativeDatetimeAdapter } from '@mat-datetimepicker/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDatetimeAdapter {
+
+  constructor(private translateService: TranslateService, _delegate: DateAdapter<Date>) {
+    super(translateService.currentLang, _delegate)
+    super.getFirstDayOfWeek = () => getLocaleFirstDayOfWeek(translateService.currentLang.replace('_', '-'));
+  }
 
   parse(value: string | number): Date {
     if (typeof value === 'number') {
