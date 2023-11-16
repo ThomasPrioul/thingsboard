@@ -16,13 +16,13 @@
 
 -->
 <mat-sidenav-container>
-  <mat-sidenav #sidenav class="tb-site-sidenav mat-elevation-z2"
+  <mat-sidenav #sidenav class="tb-site-sidenav mat-elevation-z1"
                [disableClose]="sidenavOpened"
                (click)="sidenavClicked()"
                [mode]="sidenavMode"
                [opened]="sidenavOpened && !forceFullscreen">
     <header class="tb-nav-header">
-      <mat-toolbar color="primary" class="tb-nav-header-toolbar">
+      <mat-toolbar class="tb-nav-header-toolbar">
         <div fxFlex="auto" fxLayout="row">
           <img [src]="logo"
                aria-label="logo" class="tb-logo-title"/>
@@ -35,7 +35,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div fxLayout="column" role="main" style="height: 100%;">
-      <mat-toolbar fxLayout="row" color="primary" class="tb-primary-toolbar">
+      <mat-toolbar fxLayout="row" color="secondary" class="mat-elevation-z0 tb-primary-toolbar">
         <button [fxShow]="!forceFullscreen" mat-icon-button id="main"
                 [ngClass]="{'tb-invisible': displaySearchMode()}"
                 fxHide.gt-sm (click)="sidenav.toggle()">

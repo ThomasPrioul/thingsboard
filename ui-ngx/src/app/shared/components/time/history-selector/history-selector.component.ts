@@ -18,6 +18,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } 
 import { interval } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { HistorySelectSettings } from '@app/modules/home/components/widget/lib/maps/map-models';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'tb-history-selector',
@@ -45,7 +46,7 @@ export class HistorySelectorComponent implements OnChanges {
   currentTime = null;
 
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private cd: ChangeDetectorRef, public translateService: TranslateService) { }
 
   ngOnChanges() {
     this.maxTimeIndex =  Math.ceil((this.maxTime - this.minTime) / this.step);

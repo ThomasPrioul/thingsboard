@@ -70,7 +70,7 @@
                                [syncStateWithQueryParam]="syncStateWithQueryParam"
                                [states]="dashboardConfiguration.states">
           </tb-states-component>
-          <img *ngIf="showDashboardLogo()" [src]="dashboardLogo | image | async"
+          <img *ngIf="showDashboardLogo()" [src]="dashboardLogo" routerLink="/"
                aria-label="dashboard_logo" class="dashboard_logo"/>
         </div>
         <div class="tb-dashboard-action-panel">
