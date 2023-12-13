@@ -47,7 +47,7 @@ services:
     environment:
       TB_SERVICE_ID: tb-core1
       TB_SERVICE_TYPE: tb-core
-      EDGES_ENABLED: 'true'
+      EDGES_ENABLED: 'false'
       JAVA_OPTS: '${JAVA_OPTS}'
     env_file:
       - tb-node.env
@@ -179,24 +179,24 @@ services:
     depends_on:
       - zookeeper
       - tb-core1
-      - tb-core2
-  tb-http-transport2:
-    restart: always
-    image: '${DOCKER_REPO}/${HTTP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
-    ports:
-      - '8081'
-    environment:
-      TB_SERVICE_ID: tb-http-transport2
-      JAVA_OPTS: '${JAVA_OPTS}'
-    env_file:
-      - tb-http-transport.env
-    volumes:
-      - ./tb-transports/http/conf:/config
-      - ./tb-transports/http/log:/var/log/tb-http-transport
-    depends_on:
-      - zookeeper
-      - tb-core1
-      - tb-core2
+#      - tb-core2
+#  tb-http-transport2:
+#    restart: always
+#    image: '${DOCKER_REPO}/${HTTP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
+#    ports:
+#      - '8081'
+#    environment:
+#      TB_SERVICE_ID: tb-http-transport2
+#      JAVA_OPTS: '${JAVA_OPTS}'
+#    env_file:
+#      - tb-http-transport.env
+#    volumes:
+#      - ./tb-transports/http/conf:/config
+#      - ./tb-transports/http/log:/var/log/tb-http-transport
+#    depends_on:
+#      - zookeeper
+#      - tb-core1
+#      - tb-core2
   tb-coap-transport:
     restart: always
     image: '${DOCKER_REPO}/${COAP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
@@ -213,7 +213,7 @@ services:
     depends_on:
       - zookeeper
       - tb-core1
-      - tb-core2
+#      - tb-core2
   tb-lwm2m-transport:
     restart: always
     image: '${DOCKER_REPO}/${LWM2M_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
@@ -230,7 +230,7 @@ services:
     depends_on:
       - zookeeper
       - tb-core1
-      - tb-core2
+#      - tb-core2
   tb-snmp-transport:
     restart: always
     image: '${DOCKER_REPO}/${SNMP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
@@ -247,7 +247,7 @@ services:
     depends_on:
       - zookeeper
       - tb-core1
-      - tb-core2
+#      - tb-core2
       # - tb-core2
   # tb-http-transport2:
   #   restart: always
@@ -371,6 +371,7 @@ services:
     image: thingsboard/haproxy-certbot:2.2.31-alpine3.18
     volumes:
       - ./haproxy/config:/config
+      - ./haproxy/logs:/tmp/logs
       - ./haproxy/letsencrypt:/etc/letsencrypt
       - ./haproxy/certs.d:/usr/local/etc/haproxy/certs.d
     ports:
