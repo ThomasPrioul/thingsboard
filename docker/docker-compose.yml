@@ -197,56 +197,56 @@ services:
   #      - zookeeper
   #      - tb-core1
   #      - tb-core2
-  tb-coap-transport:
-    restart: always
-    image: '${DOCKER_REPO}/${COAP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
-    ports:
-      - '5683:5683/udp'
-    environment:
-      TB_SERVICE_ID: tb-coap-transport
-      JAVA_OPTS: '${JAVA_OPTS}'
-    env_file:
-      - tb-coap-transport.env
-    volumes:
-      - ./tb-transports/coap/conf:/config
-      - ./tb-transports/coap/log:/var/log/tb-coap-transport
-    depends_on:
-      - zookeeper
-      - tb-core1
+  # tb-coap-transport:
+  #   restart: always
+  #   image: '${DOCKER_REPO}/${COAP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
+  #   ports:
+  #     - '5683:5683/udp'
+  #   environment:
+  #     TB_SERVICE_ID: tb-coap-transport
+  #     JAVA_OPTS: '${JAVA_OPTS}'
+  #   env_file:
+  #     - tb-coap-transport.env
+  #   volumes:
+  #     - ./tb-transports/coap/conf:/config
+  #     - ./tb-transports/coap/log:/var/log/tb-coap-transport
+  #   depends_on:
+  #     - zookeeper
+  #     - tb-core1
   #      - tb-core2
-  tb-lwm2m-transport:
-    restart: always
-    image: '${DOCKER_REPO}/${LWM2M_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
-    ports:
-      - '5685:5685/udp'
-    environment:
-      TB_SERVICE_ID: tb-lwm2m-transport
-      JAVA_OPTS: '${JAVA_OPTS}'
-    env_file:
-      - tb-lwm2m-transport.env
-    volumes:
-      - ./tb-transports/lwm2m/conf:/config
-      - ./tb-transports/lwm2m/log:/var/log/tb-lwm2m-transport
-    depends_on:
-      - zookeeper
-      - tb-core1
+  # tb-lwm2m-transport:
+  #   restart: always
+  #   image: '${DOCKER_REPO}/${LWM2M_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
+  #   ports:
+  #     - '5685:5685/udp'
+  #   environment:
+  #     TB_SERVICE_ID: tb-lwm2m-transport
+  #     JAVA_OPTS: '${JAVA_OPTS}'
+  #   env_file:
+  #     - tb-lwm2m-transport.env
+  #   volumes:
+  #     - ./tb-transports/lwm2m/conf:/config
+  #     - ./tb-transports/lwm2m/log:/var/log/tb-lwm2m-transport
+  #   depends_on:
+  #     - zookeeper
+  #     - tb-core1
   #      - tb-core2
-  tb-snmp-transport:
-    restart: always
-    image: '${DOCKER_REPO}/${SNMP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
-    ports:
-      - '1620:1620/udp'
-    environment:
-      TB_SERVICE_ID: tb-snmp-transport
-      JAVA_OPTS: '${JAVA_OPTS}'
-    env_file:
-      - tb-snmp-transport.env
-    volumes:
-      - ./tb-transports/snmp/conf:/config
-      - ./tb-transports/snmp/log:/var/log/tb-snmp-transport
-    depends_on:
-      - zookeeper
-      - tb-core1
+  # tb-snmp-transport:
+  #   restart: always
+  #   image: '${DOCKER_REPO}/${SNMP_TRANSPORT_DOCKER_NAME}:${TB_VERSION}'
+  #   ports:
+  #     - '1620:1620/udp'
+  #   environment:
+  #     TB_SERVICE_ID: tb-snmp-transport
+  #     JAVA_OPTS: '${JAVA_OPTS}'
+  #   env_file:
+  #     - tb-snmp-transport.env
+  #   volumes:
+  #     - ./tb-transports/snmp/conf:/config
+  #     - ./tb-transports/snmp/log:/var/log/tb-snmp-transport
+  #   depends_on:
+  #     - zookeeper
+  #     - tb-core1
   #      - tb-core2
   # - tb-core2
   # tb-http-transport2:
