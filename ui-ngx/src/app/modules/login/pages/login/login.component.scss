@@ -69,9 +69,9 @@
         min-width: 20px;
       }
 
-      a.login-with-button {
-        color: rgba(black, 0.87);
-        background-color: map-get($tb-dark-theme-background, raised-button);
+      a.adcfl {
+        color: white;
+        background-color: #c4113c;
 
         &:hover {
           border-bottom: 0;

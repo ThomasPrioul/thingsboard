@@ -80,4 +80,10 @@ export class LoginComponent extends PageComponent implements OnInit {
     }
     return oauth2Client.url + result;
   }
+
+  toCssClass(oauthName: string): string {
+    return encodeURIComponent(oauthName)
+    .toLowerCase()
+    .replace(/\.|%[0-9a-z]{2}/gi, '')
+  }
 }
