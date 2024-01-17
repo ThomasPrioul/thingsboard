@@ -1,0 +1,5 @@
+{
+    "prettier.enable": false,
+    "tsco.organizeOnSave": false,
+    "prettier.useEditorConfig": false
+}
