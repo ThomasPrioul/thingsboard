@@ -40,13 +40,13 @@
           [fxShow]="!isEdit && (deviceScope === 'customer' || deviceScope === 'tenant') && isAssignedToCustomer(entity)">
     {{ (entity?.customerIsPublic ? 'device.make-private' : 'device.unassign-from-customer') | translate }}
   </button>
-  <button mat-raised-button color="primary"
+  <button *ngIf="deviceScope === 'tenant'" mat-raised-button color="primary"
           [disabled]="(isLoading$ | async)"
           (click)="onEntityAction($event, 'manageCredentials')"
           [fxShow]="!isEdit">
-    {{ ((deviceScope === 'customer_user' || deviceScope === 'edge_customer_user') ? 'device.view-credentials' : 'device.manage-credentials') | translate }}
+    {{ 'device.manage-credentials' | translate }}
   </button>
-  <button mat-raised-button color="primary"
+  <button *ngIf="deviceScope === 'tenant'" mat-raised-button color="primary"
           [disabled]="(isLoading$ | async)"
           (click)="onEntityAction($event, 'checkConnectivity')"
           [fxShow]="!isEdit">
@@ -64,7 +64,7 @@
           [fxShow]="!hideDelete() && !isEdit">
     {{'device.delete' | translate }}
   </button>
-  <div fxLayout="row" fxLayout.xs="column">
+  <div *ngIf="deviceScope === 'tenant'" fxLayout="row" fxLayout.xs="column">
     <button mat-raised-button
             ngxClipboard
             (cbOnSuccess)="onDeviceIdCopied($event)"
@@ -74,7 +74,7 @@
       <mat-icon svgIcon="mdi:clipboard-arrow-left"></mat-icon>
       <span translate>device.copyId</span>
     </button>
-    <tb-copy-device-credentials
+    <tb-copy-device-credentials *ngIf="deviceScope === 'tenant'"
       [fxShow]="!isEdit"
       [disabled]="(isLoading$ | async)"
       [credentials$]="deviceCredentials$"
@@ -105,7 +105,7 @@
           {{ 'device.name-max-length' | translate }}
         </mat-error>
       </mat-form-field>
-      <tb-device-profile-autocomplete
+      <tb-device-profile-autocomplete *ngIf="deviceScope === 'tenant'"
         [selectDefaultProfile]="isAdd"
         required
         formControlName="deviceProfileId"
@@ -120,14 +120,14 @@
           {{ 'device.label-max-length' | translate }}
         </mat-error>
       </mat-form-field>
-      <tb-ota-package-autocomplete
+      <tb-ota-package-autocomplete *ngIf="deviceScope === 'tenant'"
         [useFullEntityId]="true"
         [showDetailsPageLink]="true"
         [type]="otaUpdateType.FIRMWARE"
         [deviceProfileId]="entityForm.get('deviceProfileId').value?.id"
         formControlName="firmwareId">
       </tb-ota-package-autocomplete>
-      <tb-ota-package-autocomplete
+      <tb-ota-package-autocomplete *ngIf="deviceScope === 'tenant'"
         [useFullEntityId]="true"
         [showDetailsPageLink]="true"
         [type]="otaUpdateType.SOFTWARE"
@@ -138,7 +138,7 @@
         formControlName="deviceData"
         required>
       </tb-device-data>
-      <div formGroupName="additionalInfo" fxLayout="column">
+      <div *ngIf="deviceScope === 'tenant'" formGroupName="additionalInfo" fxLayout="column">
         <div class="toggle-group">
           <mat-slide-toggle formControlName="gateway" style="min-width: 165px">
             {{ 'device.is-gateway' | translate }}

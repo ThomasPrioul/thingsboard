@@ -231,11 +231,11 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
         new EntityTableColumn<DeviceInfo>('customerIsPublic', 'device.public', '60px',
           entity => checkBoxCell(entity.customerIsPublic), () => ({})),
       );
+      columns.push(
+        new EntityTableColumn<DeviceInfo>('gateway', 'device.is-gateway', '60px',
+          entity => checkBoxCell(entity.additionalInfo && entity.additionalInfo.gateway), () => ({}), false)
+      );
     }
-    columns.push(
-      new EntityTableColumn<DeviceInfo>('gateway', 'device.is-gateway', '60px',
-        entity => checkBoxCell(entity.additionalInfo && entity.additionalInfo.gateway), () => ({}), false)
-    );
     return columns;
   }
 
