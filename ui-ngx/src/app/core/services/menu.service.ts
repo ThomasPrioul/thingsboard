@@ -836,19 +836,27 @@ export class MenuService {
         icon: 'home'
       },
       {
-        id: 'alarms',
-        name: 'alarm.alarms',
-        type: 'link',
-        path: '/alarms',
-        icon: 'mdi:alert-outline'
-      },
-      {
         id: 'dashboards',
         name: 'dashboard.dashboards',
         type: 'link',
         path: '/dashboards',
         icon: 'dashboards'
       },
+      {
+        id: 'devices',
+        name: 'train.trains',
+        type: 'link',
+        path: '/entities/devices',
+        icon: 'train'
+      },
+      {
+        id: 'alarms',
+        name: 'alarm.alarms',
+        type: 'link',
+        path: '/alarms',
+        icon: 'mdi:alert-outline'
+      },
+      /*
       {
         id: 'entities',
         name: 'entity.entities',
@@ -879,6 +887,7 @@ export class MenuService {
           }
         ]
       }
+      */
     );
     if (authState.edgesSupportEnabled) {
       sections.push(

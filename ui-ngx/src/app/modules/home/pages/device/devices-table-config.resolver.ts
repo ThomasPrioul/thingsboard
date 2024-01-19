@@ -220,13 +220,13 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
     const columns: Array<EntityTableColumn<DeviceInfo>> = [
       new DateEntityTableColumn<DeviceInfo>('createdTime', 'common.created-time', this.datePipe, '150px'),
       new EntityTableColumn<DeviceInfo>('name', 'device.name', '25%'),
-      new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '25%'),
       new EntityTableColumn<DeviceInfo>('label', 'device.label', '25%'),
       new EntityTableColumn<DeviceInfo>('active', 'device.state', '80px',
-        entity => this.deviceState(entity), entity => this.deviceStateStyle(entity))
+      entity => this.deviceState(entity), entity => this.deviceStateStyle(entity))
     ];
     if (deviceScope === 'tenant') {
       columns.push(
+        new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '25%'),
         new EntityTableColumn<DeviceInfo>('customerTitle', 'customer.customer', '25%'),
         new EntityTableColumn<DeviceInfo>('customerIsPublic', 'device.public', '60px',
           entity => checkBoxCell(entity.customerIsPublic), () => ({})),
@@ -341,6 +341,7 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
         }
       );
     }
+    /*
     if (deviceScope === 'customer_user' || deviceScope === 'edge_customer_user') {
       actions.push(
         {
@@ -351,6 +352,7 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
         }
       );
     }
+    */
     if (deviceScope === 'edge') {
       actions.push(
         {
