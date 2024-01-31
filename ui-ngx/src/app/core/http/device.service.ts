@@ -16,7 +16,7 @@
 
 import { Injectable } from '@angular/core';
 import { defaultHttpOptionsFromConfig, RequestConfig } from './http-utils';
-import { Observable, ReplaySubject } from 'rxjs';
+import { map, Observable, ReplaySubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { PageLink } from '@shared/models/page/page-link';
 import { PageData } from '@shared/models/page/page-data';
@@ -48,7 +48,11 @@ export class DeviceService {
 
   public getDeviceInfosByQuery(deviceInfoQuery: DeviceInfoQuery, config?: RequestConfig): Observable<PageData<DeviceInfo>> {
     return this.http.get<PageData<DeviceInfo>>(`/api${deviceInfoQuery.toQuery()}`,
-      defaultHttpOptionsFromConfig(config));
+      defaultHttpOptionsFromConfig(config)).pipe(
+        map(payload => ({
+          ...payload,
+          data: payload.data.filter(device => device.additionalInfo.gateway !== true)
+        })));;
   }
 
   public getTenantDeviceInfos(pageLink: PageLink, type: string = '',

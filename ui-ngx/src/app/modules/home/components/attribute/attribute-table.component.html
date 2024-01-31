@@ -34,7 +34,7 @@
         </div>
         <span fxFlex></span>
         <button mat-icon-button
-                *ngIf="attributeScope !== attributeScopeTypes.CLIENT_SCOPE"
+                *ngIf="authUser.authority === authorities.TENANT_ADMIN && attributeScope !== attributeScopeTypes.CLIENT_SCOPE"
                 [disabled]="isLoading$ | async"
                 (click)="addAttribute($event)"
                 matTooltip="{{ 'action.add' | translate }}"
@@ -139,7 +139,7 @@
     <div fxFlex class="table-container" [fxShow]="mode !== 'widget'">
       <table mat-table [dataSource]="dataSource"
                  matSort [matSortActive]="pageLink.sortOrder.property" [matSortDirection]="pageLink.sortDirection()" matSortDisableClear>
-        <ng-container matColumnDef="select" sticky>
+        <ng-container *ngIf="authUser.authority === authorities.TENANT_ADMIN" matColumnDef="select" sticky>
           <mat-header-cell *matHeaderCellDef style="width: 40px;">
             <mat-checkbox (change)="$event ? dataSource.masterToggle() : null"
                           [checked]="dataSource.selection.hasValue() && (dataSource.isAllSelected() | async)"
@@ -196,10 +196,10 @@
                 >
                 </tb-copy-button>
               </div>
-              <span [fxShow]="!isClientSideTelemetryTypeMap.get(attributeScope)">
+              <span *ngIf="authUser.authority === authorities.TENANT_ADMIN" [fxShow]="!isClientSideTelemetryTypeMap.get(attributeScope)">
                 <mat-icon>edit</mat-icon>
               </span>
-              <button mat-icon-button *ngIf="attributeScope === latestTelemetryTypes.LATEST_TELEMETRY"
+              <button mat-icon-button *ngIf="authUser.authority === authorities.TENANT_ADMIN && attributeScope === latestTelemetryTypes.LATEST_TELEMETRY"
                       (click)="deleteTimeseries($event, attribute)">
                 <mat-icon>delete</mat-icon>
               </button>
@@ -209,7 +209,7 @@
         <mat-header-row [ngClass]="{'mat-row-select': true}" *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
         <mat-row [ngClass]="{'mat-row-select': true,
                              'mat-selected': dataSource.selection.isSelected(attribute)}"
-                 *matRowDef="let attribute; columns: displayedColumns;" (click)="dataSource.selection.toggle(attribute)"></mat-row>
+                 *matRowDef="let attribute; columns: displayedColumns;" (click)="authUser.authority === authorities.TENANT_ADMIN ? dataSource.selection.toggle(attribute) : undefined"></mat-row>
       </table>
       <span [fxShow]="dataSource.isEmpty() | async"
             fxLayoutAlign="center center"

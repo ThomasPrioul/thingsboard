@@ -174,7 +174,7 @@ export class AlarmTableConfig extends EntityTableConfig<AlarmInfo, TimePageLink>
       {
         name: this.translate.instant('alarm.delete'),
         icon: 'delete',
-        isEnabled: true,
+        isEnabled: this.authUser.authority === Authority.TENANT_ADMIN,
         onAction: ($event, entities) => this.deleteAlarms($event, entities)
       }
     )

@@ -21,6 +21,8 @@ import { AppState } from '@core/core.state';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { PageComponent } from '@shared/components/page.component';
 import { OverlayRef } from '@angular/cdk/overlay';
+import { AuthUser, Authority } from '@app/shared/public-api';
+import { getCurrentAuthUser } from '@app/core/public-api';
 
 export const EDIT_ATTRIBUTE_VALUE_PANEL_DATA = new InjectionToken<any>('EditAttributeValuePanelData');
 
@@ -37,6 +39,8 @@ export interface EditAttributeValuePanelData {
 export class EditAttributeValuePanelComponent extends PageComponent implements OnInit, ErrorStateMatcher {
 
   attributeFormGroup: UntypedFormGroup;
+  authUser: AuthUser;
+  Authorities = Authority;
 
   result: any = null;
 
@@ -48,12 +52,15 @@ export class EditAttributeValuePanelComponent extends PageComponent implements O
               public overlayRef: OverlayRef,
               public fb: UntypedFormBuilder) {
     super(store);
+    this.authUser = getCurrentAuthUser(store);
   }
 
   ngOnInit(): void {
     this.attributeFormGroup = this.fb.group({
-      value: [this.data.attributeValue, [Validators.required]]
+      value: [this.data.attributeValue, [Validators.required]],
     });
+    if (this.authUser.authority !== Authority.TENANT_ADMIN)
+      this.attributeFormGroup.controls['value'].disable();
   }
 
   isErrorState(control: UntypedFormControl | null, form: FormGroupDirective | NgForm | null): boolean {

@@ -23,6 +23,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { isNotEmptyStr } from '@core/utils';
+import { getCurrentAuthUser } from '@app/core/public-api';
+import { AuthUser } from '@app/shared/models/user.model';
+import { Authority } from '@app/shared/public-api';
 
 export interface JsonObjectEditDialogData {
   jsonValue: object;
@@ -45,6 +48,7 @@ export class JsonObjectEditDialogComponent extends DialogComponent<JsonObjectEdi
   cancelButtonLabel = this.translate.instant('action.cancel');
 
   required = this.data.required === true;
+  authUser: AuthUser;
 
   constructor(protected store: Store<AppState>,
               protected router: Router,
@@ -53,6 +57,7 @@ export class JsonObjectEditDialogComponent extends DialogComponent<JsonObjectEdi
               public fb: FormBuilder,
               private translate: TranslateService) {
     super(store, router, dialogRef);
+    this.authUser = getCurrentAuthUser(store);
     if (isNotEmptyStr(this.data.title)) {
       this.title = this.data.title;
     }
@@ -65,6 +70,8 @@ export class JsonObjectEditDialogComponent extends DialogComponent<JsonObjectEdi
     this.jsonFormGroup = this.fb.group({
       json: [this.data.jsonValue, []]
     });
+    if (this.authUser.authority !== Authority.TENANT_ADMIN)
+      this.jsonFormGroup.controls['json'].disable();
   }
 
   cancel(): void {

@@ -15,7 +15,7 @@
     limitations under the License.
 
 -->
-<mat-tab *ngIf="entity"
+<mat-tab *ngIf="entity && authUser.authority === authorities.TENANT_ADMIN"
          label="{{ 'attribute.attributes' | translate }}" #attributesTab="matTab">
   <tb-attribute-table [defaultAttributeScope]="attributeScopes.CLIENT_SCOPE"
                       [active]="attributesTab.isActive"
@@ -36,12 +36,12 @@
          label="{{ 'alarm.alarms' | translate }}" #alarmsTab="matTab">
   <tb-alarm-table [active]="alarmsTab.isActive" [entityId]="entity.id"></tb-alarm-table>
 </mat-tab>
-<mat-tab *ngIf="entity"
+<mat-tab *ngIf="entity && authUser.authority === authorities.TENANT_ADMIN"
          label="{{ 'device.events' | translate }}" #eventsTab="matTab">
   <tb-event-table [defaultEventType]="eventTypes.ERROR" [active]="eventsTab.isActive" [tenantId]="entity.tenantId.id"
                   [entityId]="entity.id"></tb-event-table>
 </mat-tab>
-<mat-tab *ngIf="entity"
+<mat-tab *ngIf="entity && authUser.authority === authorities.TENANT_ADMIN"
          label="{{ 'relation.relations' | translate }}" #relationsTab="matTab">
   <tb-relation-table [active]="relationsTab.isActive" [entityId]="entity.id"></tb-relation-table>
 </mat-tab>

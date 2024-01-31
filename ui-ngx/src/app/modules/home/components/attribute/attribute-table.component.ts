@@ -90,7 +90,9 @@ import { hidePageSizePixelValue } from '@shared/models/constants';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { DeleteTimeseriesPanelComponent } from '@home/components/attribute/delete-timeseries-panel.component';
 import { FormBuilder } from '@angular/forms';
-
+import { getCurrentAuthUser } from '@core/auth/auth.selectors';
+import { AuthUser } from '@app/shared/models/user.model';
+import { Authority } from '@app/shared/models/authority.enum';
 
 @Component({
   selector: 'tb-attribute-table',
@@ -105,6 +107,8 @@ export class AttributeTableComponent extends PageComponent implements AfterViewI
 
   latestTelemetryTypes = LatestTelemetry;
   attributeScopeTypes = AttributeScope;
+  authorities = Authority;
+  authUser: AuthUser;
 
   mode: 'default' | 'widget' = 'default';
 
@@ -112,7 +116,7 @@ export class AttributeTableComponent extends PageComponent implements AfterViewI
   attributeScope: TelemetryType;
   toTelemetryTypeFunc = toTelemetryType;
 
-  displayedColumns = ['select', 'lastUpdateTs', 'key', 'value'];
+  displayedColumns: string[];
   pageLink: PageLink;
   textSearchMode = false;
   dataSource: AttributeDatasource;
@@ -208,6 +212,8 @@ export class AttributeTableComponent extends PageComponent implements AfterViewI
     const sortOrder: SortOrder = { property: 'key', direction: Direction.ASC };
     this.pageLink = new PageLink(10, 0, null, sortOrder);
     this.dataSource = new AttributeDatasource(this.attributeService, this.telemetryWsService, this.zone, this.translate);
+    this.authUser = getCurrentAuthUser(store);
+    this.displayedColumns = this.authUser.authority === Authority.TENANT_ADMIN ? ['select', 'lastUpdateTs', 'key', 'value'] : ['lastUpdateTs', 'key', 'value'];
   }
 
   ngOnInit() {

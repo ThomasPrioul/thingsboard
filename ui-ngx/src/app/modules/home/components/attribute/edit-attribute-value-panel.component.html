@@ -17,13 +17,13 @@
 -->
 <form class="mat-elevation-z1"
       [formGroup]="attributeFormGroup" (ngSubmit)="update()" style="padding: 5px;">
-  <fieldset [disabled]="isLoading$ | async">
+  <fieldset [disabled]="(isLoading$ | async)">
     <tb-value-input
       formControlName="value"
       requiredText="attribute.value-required">
     </tb-value-input>
   </fieldset>
-  <div fxLayout="row" class="tb-panel-actions">
+  <div *ngIf="authUser.authority === Authorities.TENANT_ADMIN" fxLayout="row" class="tb-panel-actions">
     <span fxFlex></span>
     <button mat-button color="primary"
             type="button"
