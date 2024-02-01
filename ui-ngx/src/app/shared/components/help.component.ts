@@ -15,13 +15,21 @@
 ///
 
 import { Component, Input } from '@angular/core';
+import { AppState, getCurrentAuthState } from '@app/core/public-api';
 import { HelpLinks } from '@shared/models/constants';
+import { Authority } from '../public-api';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: '[tb-help]',
   templateUrl: './help.component.html'
 })
 export class HelpComponent {
+  show: boolean;
+
+  constructor(store: Store<AppState>) {
+    this.show = getCurrentAuthState(store).authUser.authority === Authority.TENANT_ADMIN;
+  }
 
   @Input('tb-help') helpLinkId: string;
 
