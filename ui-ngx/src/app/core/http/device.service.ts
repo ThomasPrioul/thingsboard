@@ -35,24 +35,36 @@ import { AuthService } from '@core/auth/auth.service';
 import { BulkImportRequest, BulkImportResult } from '@shared/import-export/import-export.models';
 import { PersistentRpc, RpcStatus } from '@shared/models/rpc.models';
 import { ResourcesService } from '@core/services/resources.service';
+import { Store } from '@ngrx/store';
+import { getCurrentAuthUser } from '../auth/auth.selectors';
+import { AppState } from '../core.state';
+import { AuthUser } from '@app/shared/models/user.model';
+import { Authority } from '@app/shared/public-api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
+  private authUser: AuthUser;
 
   constructor(
     private http: HttpClient,
-    private resourcesService: ResourcesService
-  ) { }
+    private resourcesService: ResourcesService,
+    store: Store<AppState>
+  ) {
+    this.authUser = getCurrentAuthUser(store);
+  }
 
   public getDeviceInfosByQuery(deviceInfoQuery: DeviceInfoQuery, config?: RequestConfig): Observable<PageData<DeviceInfo>> {
     return this.http.get<PageData<DeviceInfo>>(`/api${deviceInfoQuery.toQuery()}`,
       defaultHttpOptionsFromConfig(config)).pipe(
-        map(payload => ({
-          ...payload,
-          data: payload.data.filter(device => device.additionalInfo.gateway !== true)
-        })));;
+        map(payload => {
+          if (this.authUser.authority !== Authority.CUSTOMER_USER) return payload;
+          return ({
+            ...payload,
+            data: payload.data.filter(device => device.additionalInfo.gateway !== true)
+          });
+        }));
   }
 
   public getTenantDeviceInfos(pageLink: PageLink, type: string = '',

@@ -50,6 +50,7 @@
 <ng-template #deviceFilter>
   <div fxLayout="column" fxLayoutGap="16px" style="min-width: 280px;" [formGroup]="deviceInfoFilterForm">
     <tb-device-profile-autocomplete
+      [addNewProfile]="false"
       subscriptSizing="dynamic"
       formControlName="deviceProfileId"
       [displayAllOnEmpty]="true"

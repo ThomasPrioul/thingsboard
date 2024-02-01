@@ -31,6 +31,11 @@ import { SortOrder } from '@shared/models/page/sort-order';
 import { OtaPackageService } from '@core/http/ota-package.service';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { Lwm2mSecurityType } from '@shared/models/lwm2m-security-config.models';
+import { Authority } from '@app/shared/models/authority.enum';
+import { Store } from '@ngrx/store';
+import { AppState } from '../core.state';
+import { getCurrentAuthUser } from '../auth/public-api';
+import { AuthUser } from '@app/shared/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -38,11 +43,13 @@ import { Lwm2mSecurityType } from '@shared/models/lwm2m-security-config.models';
 export class DeviceProfileService {
 
   private lwm2mBootstrapSecurityInfoInMemoryCache = new Map<boolean, ServerSecurityConfigInfo>();
+  private authUser: AuthUser;
 
   constructor(
     private http: HttpClient,
-    private otaPackageService: OtaPackageService
-  ) {
+    private otaPackageService: OtaPackageService,
+    store: Store<AppState>) {
+    this.authUser = getCurrentAuthUser(store);
   }
 
   public getDeviceProfiles(pageLink: PageLink, config?: RequestConfig): Observable<PageData<DeviceProfile>> {
@@ -150,7 +157,10 @@ export class DeviceProfileService {
     if (isDefinedAndNotNull(transportType)) {
       url += `&transportType=${transportType}`;
     }
-    return this.http.get<PageData<DeviceProfileInfo>>(url, defaultHttpOptionsFromConfig(config));
+    return this.http.get<PageData<DeviceProfileInfo>>(url, defaultHttpOptionsFromConfig(config)).pipe(map(deviceProfiles => {
+      if (this.authUser.authority !== Authority.CUSTOMER_USER) return deviceProfiles;
+      return ({...deviceProfiles, data: deviceProfiles.data.filter(dp => dp.name !== 'Gateway')});
+    }));
   }
 
   public getDeviceProfileDevicesAttributesKeys(deviceProfileId?: string, config?: RequestConfig): Observable<Array<string>> {
