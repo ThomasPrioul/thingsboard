@@ -167,7 +167,7 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
           if (parentCustomer.additionalInfo && parentCustomer.additionalInfo.isPublic) {
             this.config.tableTitle = this.translate.instant('customer.public-devices');
           } else {
-            this.config.tableTitle = parentCustomer.title + ': ' + this.translate.instant('device.devices');
+            this.config.tableTitle = this.translate.instant('device.devices');
           }
         } else if (this.config.componentsData.deviceScope === 'edge') {
           this.edgeService.getEdge(this.config.componentsData.edgeId).subscribe(
@@ -218,15 +218,14 @@ export class DevicesTableConfigResolver implements Resolve<EntityTableConfig<Dev
 
   configureColumns(deviceScope: string): Array<EntityTableColumn<DeviceInfo>> {
     const columns: Array<EntityTableColumn<DeviceInfo>> = [
-      new DateEntityTableColumn<DeviceInfo>('createdTime', 'common.created-time', this.datePipe, '150px'),
-      new EntityTableColumn<DeviceInfo>('name', 'device.name', '25%'),
       new EntityTableColumn<DeviceInfo>('label', 'device.label', '25%'),
-      new EntityTableColumn<DeviceInfo>('active', 'device.state', '80px',
-      entity => this.deviceState(entity), entity => this.deviceStateStyle(entity))
+      new EntityTableColumn<DeviceInfo>('name', 'device.name', '25%'),
+      new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '25%'),
+      new EntityTableColumn<DeviceInfo>('active', 'device.state', '80px', entity => this.deviceState(entity), entity => this.deviceStateStyle(entity)),
+      new DateEntityTableColumn<DeviceInfo>('createdTime', 'common.created-time', this.datePipe, '150px'),
     ];
     if (deviceScope === 'tenant') {
       columns.push(
-        new EntityTableColumn<DeviceInfo>('deviceProfileName', 'device-profile.device-profile', '25%'),
         new EntityTableColumn<DeviceInfo>('customerTitle', 'customer.customer', '25%'),
         new EntityTableColumn<DeviceInfo>('customerIsPublic', 'device.public', '60px',
           entity => checkBoxCell(entity.customerIsPublic), () => ({})),
