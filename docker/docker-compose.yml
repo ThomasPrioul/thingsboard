@@ -319,7 +319,7 @@ services:
   #     - tb-core2
   tb-web-ui1:
     restart: always
-    image: 'masteris/${WEB_UI_DOCKER_NAME}:${TB_VERSION}.3'
+    image: 'masteris/tb-web-ui:3.6.2.3'
     ports:
       - '8080'
     env_file:
