@@ -18,9 +18,10 @@ Pour maven: `sudo apt install maven`
 
 ```bash
 # Depuis la racine du projet
-mvn clean install -DskipTests -Ddockerfile.skip=false -pl ui-ngx -am
-docker build --no-cache msa/web-ui/target -t masteris/tb-web-ui:<VERSION>
-docker save -o <savePath>.tar masteris/tb-web-ui:<VERSION>
+cd msa/web-ui
+mvn clean install -DskipTests -Ddockerfile.skip=false
+docker tag thingsboard/tb-web-ui:<VERSION> masteris/tb-web-ui:<CUSTOM_VERSION>
+docker save -o <savePath>.tar masteris/tb-web-ui:<CUSTOM_VERSION>
 
 # Puis faire une copie du .tar sur l'EC2 cible
 ```
