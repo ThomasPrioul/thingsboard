@@ -372,6 +372,7 @@ services:
     volumes:
       - ./haproxy/config:/config
       - ./haproxy/logs:/tmp/logs
+      - ./haproxy/conf_supervisor:/etc/supervisor/conf.d
       - ./haproxy/letsencrypt:/etc/letsencrypt
       - ./haproxy/certs.d:/usr/local/etc/haproxy/certs.d
     ports:
