@@ -238,6 +238,12 @@ export class DashboardsTableConfigResolver implements Resolve<EntityTableConfig<
           icon: 'assignment_ind',
           isEnabled: () => true,
           onAction: ($event, entity) => this.manageAssignedCustomers($event, entity)
+        },
+        {
+          name: this.translate.instant('dashboard.dashboard-details'),
+          icon: 'edit',
+          isEnabled: () => true,
+          onAction: ($event, entity) => this.config.toggleEntityDetails($event, entity)
         }
       );
     }
@@ -279,14 +285,6 @@ export class DashboardsTableConfigResolver implements Resolve<EntityTableConfig<
         }
       );
     }
-    actions.push(
-      {
-        name: this.translate.instant('dashboard.dashboard-details'),
-        icon: 'edit',
-        isEnabled: () => true,
-        onAction: ($event, entity) => this.config.toggleEntityDetails($event, entity)
-      }
-    );
     return actions;
   }
 
