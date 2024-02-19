@@ -25,6 +25,8 @@ import { merge, Observable } from 'rxjs';
 import { MenuSection } from '@core/services/menu.models';
 import { ActiveComponentService } from '@core/services/active-component.service';
 import { TbAnchorComponent } from '@shared/components/tb-anchor.component';
+import { getCurrentAuthUser } from '@app/core/public-api';
+import { AuthUser } from '@app/shared/public-api';
 
 @Component({
   selector: 'tb-router-tabs',
@@ -42,6 +44,7 @@ export class RouterTabsComponent extends PageComponent implements OnInit {
   replaceUrl = false;
 
   tabs$: Observable<Array<MenuSection>>;
+  authUser: AuthUser;
 
   constructor(protected store: Store<AppState>,
               private activatedRoute: ActivatedRoute,
@@ -49,6 +52,7 @@ export class RouterTabsComponent extends PageComponent implements OnInit {
               private menuService: MenuService,
               private activeComponentService: ActiveComponentService) {
     super(store);
+    this.authUser = getCurrentAuthUser(store);
   }
 
   ngOnInit() {
@@ -117,7 +121,7 @@ export class RouterTabsComponent extends PageComponent implements OnInit {
     const sectionPath = this.getSectionPath(activatedRoute);
     if (activatedRoute.routeConfig.children.length) {
       const activeRouterChildren = activatedRoute.routeConfig.children.filter(page => page.path !== '');
-      return activeRouterChildren.map(tab => ({
+      return activeRouterChildren.filter(tab => tab.data?.auth.includes(this.authUser.authority)).map(tab => ({
         id: tab.component.name,
         type: 'link',
         name: tab.data?.breadcrumb?.label ?? '',

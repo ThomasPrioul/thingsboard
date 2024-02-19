@@ -27,7 +27,7 @@ export const notificationUserSettingsRoutes: Routes = [
     component: NotificationSettingsComponent,
     canDeactivate: [ConfirmOnExitGuard],
     data: {
-      auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN, Authority.CUSTOMER_USER],
+      auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN],
       title: 'account.notification-settings',
       breadcrumb: {
         label: 'account.notification-settings',

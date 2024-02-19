@@ -59,7 +59,7 @@ export const securityRoutes: Routes = [
     component: SecurityComponent,
     canDeactivate: [ConfirmOnExitGuard],
     data: {
-      auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN, Authority.CUSTOMER_USER],
+      auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN],
       title: 'security.security',
       breadcrumb: {
         label: 'security.security',
